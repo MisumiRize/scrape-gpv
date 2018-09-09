@@ -25,52 +25,63 @@ export default async (date: string | number, hour?: number): Promise<string> => 
   }
 
   const browser = await puppeteer.launch()
-  const page = await browser.newPage()
-  await page.goto('http://weather-gpv.info', { waitUntil: 'networkidle2' })
-  await page.frames()[1].click('#sd_cp_l')
-  const mainFrame = page.frames()[4]
-  await mainFrame.waitFor('option[value="0"]', { timeout: '5000' })
+  let page: puppeteer.Page | undefined
+  try {
+    page = await browser.newPage()
 
-  const fnl: any = await mainFrame.evaluate((): any => (<any>window).fnl)
-  if (!Array.isArray(fnl) || !fnl.every(item => typeof item === 'string')) {
-    throw new Error()
-  }
-  const files: string[] = fnl
+    await page.goto('http://weather-gpv.info', { waitUntil: 'networkidle2' })
+    await page.frames()[1].click('#sd_cp_l')
+    const mainFrame = page.frames()[4]
+    await mainFrame.waitFor('option[value="0"]', { timeout: '5000' })
 
-  const value: string | null = await mainFrame.evaluate((label: string): string | null => {
-    const option: HTMLOptionElement | undefined = Array.prototype.find.call(
-      document.querySelectorAll('option'),
-      (el: HTMLOptionElement) => el.textContent === label
-    )
-    return option == null ? null : option.value
-  }, label)
-  if (value == null) {
-    throw new Error(`No option found for label: ${label}`)
-  }
-  const filename = files[parseInt(value, 10) + 1]
-  if (filename == null) {
-    throw new Error(`No such filename for label: ${label}`)
-  }
-
-  // @ts-ignore
-  await mainFrame.select('select[name="dt"]', value)
-  await mainFrame.waitFor((filename: string): boolean => {
-    const image = document.querySelector<HTMLImageElement>('img[name="wIMG"]')
-    if (image == null) {
-      return false
+    const fnl: any = await mainFrame.evaluate((): any => (<any>window).fnl)
+    if (!Array.isArray(fnl)) {
+      throw new Error(`Error fnl is invalid: ${fnl}`)
     }
-    return image.src.includes(filename)
-  }, { timeout: 10000 }, path.basename(filename))
+    const files: string[] = fnl.filter(item => typeof item === 'string')
 
-  const location: string | null = await mainFrame.evaluate((): string | null => {
-    const image = document.querySelector<HTMLImageElement>('img[name="wIMG"]')
-    if (image == null) {
-      return null
+    const value: string | null = await mainFrame.evaluate((label: string): string | null => {
+      const option: HTMLOptionElement | undefined = Array.prototype.find.call(
+        document.querySelectorAll('option'),
+        (el: HTMLOptionElement) => el.textContent === label
+      )
+      return option == null ? null : option.value
+    }, label)
+    if (value == null) {
+      throw new Error(`No option found for label: ${label}`)
     }
-    return image.src
-  })
-  if (location == null) {
-    throw new Error('Image not found')
+    const filename = files[parseInt(value, 10)]
+    if (filename == null) {
+      throw new Error(`No such filename for label: ${label}`)
+    }
+
+    // @ts-ignore
+    await mainFrame.select('select[name="dt"]', value)
+    await mainFrame.waitFor((filename: string): boolean => {
+      const image = document.querySelector<HTMLImageElement>('img[name="wIMG"]')
+      if (image == null) {
+        return false
+      }
+      return image.src.includes(filename)
+    }, { timeout: 10000 }, path.basename(filename))
+
+    const location: string | null = await mainFrame.evaluate((): string | null => {
+      const image = document.querySelector<HTMLImageElement>('img[name="wIMG"]')
+      if (image == null) {
+        return null
+      }
+      return image.src
+    })
+    if (location == null) {
+      throw new Error('Image not found')
+    }
+    return location
+  } catch (e) {
+    throw e
+  } finally {
+    if (page != null) {
+      await page.close()
+    }
+    await browser.close()
   }
-  return location
 }

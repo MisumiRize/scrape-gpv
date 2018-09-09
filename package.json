@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "lint": "standard",
     "lint:fix": "standard --fix"
   },
@@ -30,9 +30,12 @@
     "puppeteer": "^1.8.0"
   },
   "devDependencies": {
+    "@types/jest": "^23.3.2",
     "@types/puppeteer": "^1.6.3",
     "eslint-plugin-typescript": "^0.12.0",
+    "jest": "^23.5.0",
     "standard": "^12.0.1",
+    "ts-jest": "^23.1.4",
     "typescript": "^3.0.3",
     "typescript-eslint-parser": "^18.0.0"
   },
@@ -40,6 +43,18 @@
     "parser": "typescript-eslint-parser",
     "plugins": [
       "typescript"
+    ]
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)test)\\.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json",
+      "node"
     ]
   }
 }
