@@ -4,6 +4,7 @@
   "description": "GPV scraping module for Node",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,5 +22,12 @@
   "bugs": {
     "url": "https://github.com/MisumiRize/scrape_gpv/issues"
   },
-  "homepage": "https://github.com/MisumiRize/scrape_gpv#readme"
+  "homepage": "https://github.com/MisumiRize/scrape_gpv#readme",
+  "dependencies": {
+    "puppeteer": "^1.8.0"
+  },
+  "devDependencies": {
+    "@types/puppeteer": "^1.6.3",
+    "typescript": "^3.0.3"
+  }
 }
