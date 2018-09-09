@@ -24,7 +24,11 @@ export default async (date: string | number, hour?: number): Promise<string> => 
     throw new Error(`I can't understand date: ${date}, hour: ${hour}`)
   }
 
-  const browser = await puppeteer.launch()
+  const browser = await puppeteer.launch(
+    process.env.CI
+      ? { args: [ '--no-sandbox', '--disable-setuid-sandbox' ] }
+      : {}
+  )
   let page: puppeteer.Page | undefined
   try {
     page = await browser.newPage()
