@@ -1,5 +1,5 @@
 {
-  "name": "scrape_gpv",
+  "name": "@m8e/scrape-gpv",
   "version": "0.1.0",
   "description": "GPV scraping module for Node",
   "main": "dist/index.js",

@@ -1,2 +1,2 @@
-# scrape_gpv
+# scrape-gpv
 🌤 GPV scraping module for Node
