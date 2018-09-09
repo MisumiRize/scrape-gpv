@@ -6,8 +6,8 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
-    "lint": "standard",
-    "lint:fix": "standard --fix"
+    "lint": "standard **/**/*.ts **/*.ts *.ts",
+    "lint:fix": "standard --fix **/*.ts *.ts"
   },
   "repository": {
     "type": "git",

@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 import url from 'url'
 import getRccLocation from '../getRccLocation'
 
@@ -7,13 +9,13 @@ test('run as expected', async () => {
   expect(urlObj).toMatchObject({
     auth: null,
     hash: null,
-    host: "weather-gpv.info",
-    hostname: "weather-gpv.info",
-    href: "http://weather-gpv.info/msm/msm_cp_kt_22.03Z10SEP2018.png",
-    path: "/msm/msm_cp_kt_22.03Z10SEP2018.png",
-    pathname: "/msm/msm_cp_kt_22.03Z10SEP2018.png",
+    host: 'weather-gpv.info',
+    hostname: 'weather-gpv.info',
+    href: 'http://weather-gpv.info/msm/msm_cp_kt_22.03Z10SEP2018.png',
+    path: '/msm/msm_cp_kt_22.03Z10SEP2018.png',
+    pathname: '/msm/msm_cp_kt_22.03Z10SEP2018.png',
     port: null,
-    protocol: "http:",
+    protocol: 'http:',
     query: null,
     search: null,
     slashes: true

@@ -34,7 +34,10 @@ export default async (date: string | number, hour?: number): Promise<string> => 
     const mainFrame = page.frames()[4]
     await mainFrame.waitFor('option[value="0"]', { timeout: '5000' })
 
-    const fnl: any = await mainFrame.evaluate((): any => (<any>window).fnl)
+    const fnl: any = await mainFrame.evaluate((): any => {
+      const w: any = window
+      return w.fnl
+    })
     if (!Array.isArray(fnl)) {
       throw new Error(`Error fnl is invalid: ${fnl}`)
     }
