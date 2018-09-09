@@ -1,0 +1,25 @@
+{
+  "name": "scrape_gpv",
+  "version": "0.1.0",
+  "description": "GPV scraping module for Node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/MisumiRize/scrape_gpv.git"
+  },
+  "keywords": [
+    "scraping",
+    "puppeteer",
+    "weather",
+    "GPV"
+  ],
+  "author": "Rize MISUMI",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MisumiRize/scrape_gpv/issues"
+  },
+  "homepage": "https://github.com/MisumiRize/scrape_gpv#readme"
+}
