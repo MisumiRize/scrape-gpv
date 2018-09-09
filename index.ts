@@ -1,1 +1,5 @@
-import * as puppeteer from 'puppeteer'
+import getRccLocation from './lib/getRccLocation'
+
+export default {
+  getRccLocation
+}
