@@ -25,7 +25,7 @@ export default async (date: string | number, hour?: number): Promise<string> => 
   }
 
   const browser = await puppeteer.launch(
-    process.env.CI
+    process.env.CI || process.env.DYNO
       ? { args: [ '--no-sandbox', '--disable-setuid-sandbox' ] }
       : {}
   )

@@ -1,5 +1,5 @@
 import getRccLocation from './lib/getRccLocation'
 
-export default {
+export {
   getRccLocation
 }
