@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/MisumiRize/scrape_gpv#readme",
   "dependencies": {
-    "@m8e/puppeter-browser": "^0.1.0",
+    "@m8e/puppeter-browser": "^0.1.1",
     "moment": "^2.22.2",
     "puppeteer": "^1.8.0"
   },
