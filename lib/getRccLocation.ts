@@ -1,6 +1,7 @@
 import moment from 'moment'
 import path from 'path'
 import puppeteer from 'puppeteer'
+import puppeteerBrowser from '@m8e/puppeter-browser'
 
 moment.locale('ja')
 const LABEL_FORMAT = 'MM/DD(ddd) HH:00'
@@ -24,14 +25,9 @@ export default async (date: string | number, hour?: number): Promise<string> => 
     throw new Error(`I can't understand date: ${date}, hour: ${hour}`)
   }
 
-  const browser = await puppeteer.launch(
-    process.env.CI || process.env.DYNO
-      ? { args: [ '--no-sandbox', '--disable-setuid-sandbox' ] }
-      : {}
-  )
-  let page: puppeteer.Page | undefined
+  const { browser, kill } = await puppeteerBrowser()
   try {
-    page = await browser.newPage()
+    const page = await browser.newPage()
 
     await page.goto('http://weather-gpv.info', { waitUntil: 'networkidle2' })
     await page.frames()[1].click('#sd_cp_l')
@@ -83,12 +79,7 @@ export default async (date: string | number, hour?: number): Promise<string> => 
       throw new Error('Image not found')
     }
     return location
-  } catch (e) {
-    throw e
   } finally {
-    if (page != null) {
-      await page.close()
-    }
-    await browser.close()
+    await kill()
   }
 }
